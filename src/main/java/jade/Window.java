@@ -66,6 +66,15 @@ public class Window {
             throw new IllegalStateException("Failed to create the GLFW window.");
         }
 
+        // Set up a cursor's position callback. It will be called each time the mouse is moved.
+        glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
+        // Set up a mouse button callback. It will be called each time a mouse button is pressed or released.
+        glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
+        // Set up a scroll callback. It will be called each time the user scrolls.
+        glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+        // Set up a key callback. It will be called every time a key is pressed, repeated or released.
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+
         // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
         // Enable v-sync
@@ -89,6 +98,10 @@ public class Window {
 
             glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            if (KeyListener.isKeyPressed(GLFW_KEY_SPACE)) {
+                System.out.println("Space key is pressed !");
+            }
 
             glfwSwapBuffers(glfwWindow);
         }
