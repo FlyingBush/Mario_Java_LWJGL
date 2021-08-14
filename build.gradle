@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+}
+
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+}
+project.ext.lwjglVersion = "3.2.3"
+project.ext.jomlVersion = "1.10.1"
+project.ext.lwjglNatives = "natives-windows"
+
+
+dependencies {
+    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
+
+    implementation 'org.lwjgl:lwjgl:3.2.3'
+    implementation 'org.lwjgl:lwjgl-assimp:3.2.3'
+    implementation 'org.lwjgl:lwjgl-glfw:3.2.3'
+    implementation 'org.lwjgl:lwjgl-nfd:3.2.3'
+    implementation 'org.lwjgl:lwjgl-openal:3.2.3'
+    implementation 'org.lwjgl:lwjgl-opengl:3.2.3'
+    implementation 'org.lwjgl:lwjgl-stb:3.2.3'
+    runtimeOnly "org.lwjgl:lwjgl:3.2.3:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-assimp:3.2.3:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-glfw:3.2.3:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-nfd:3.2.3:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-openal:3.2.3:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-opengl:3.2.3:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-stb:3.2.3:$lwjglNatives"
+    implementation "org.joml:joml:${jomlVersion}"
+}
+
+test {
+    useJUnitPlatform()
+}
