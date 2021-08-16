@@ -1,7 +1,5 @@
 package jade;
 
-import java.awt.event.KeyEvent;
-
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 public class LevelEditorScene extends Scene {
