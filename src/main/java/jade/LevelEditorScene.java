@@ -119,6 +119,10 @@ public class LevelEditorScene extends Scene {
             assert false : "";
         }
 
+        // Then delete the unuseful shader objects
+        glDeleteShader(vertexID);
+        glDeleteShader(fragmentID);
+
         // =============================================================
         // Generate VAO, VBO and EBO buffer objects, and send to GPU
         // =============================================================
@@ -161,16 +165,9 @@ public class LevelEditorScene extends Scene {
         // Bind the VAO that we're using
         glBindVertexArray(vaoID);
 
-        // Enable the vertex attribute pointers
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-
         glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
 
         // Unbind everything
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-
         glBindVertexArray(0);
 
         glUseProgram(0);
