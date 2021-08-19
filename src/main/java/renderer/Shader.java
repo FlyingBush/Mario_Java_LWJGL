@@ -18,45 +18,42 @@ public class Shader {
 
     public Shader(String filepath) {
         this.filepath = filepath;
+        String source = null;
+
+        // Open and store the glsl file in 'String source'
         try {
-            String source = new String(Files.readAllBytes(Paths.get(filepath)));
-            String[] splitString = source.split("(#type)( )+([a-zA-Z]+)");
-
-            // Find the first pattern after #type 'pattern'
-            int index = source.indexOf("#type") + 6;
-            int eol = source.indexOf("\r\n", index);
-            String firstPattern = source.substring(index, eol).trim();
-
-            // Find the second pattern after #type 'pattern'
-            index = source.indexOf("#type", eol) + 6;
-            eol = source.indexOf("\r\n", index);
-            String secondPattern = source.substring(index, eol).trim();
-
-            if (firstPattern.equals("vertex"))
-            {
-                vertexShaderSrc = splitString[1];
-            } else if (firstPattern.equals("fragment"))
-            {
-                fragmentShaderSrc = splitString[1];
-            } else
-            {
-                throw new IOException("Unexpected token '" + firstPattern + "'");
-            }
-
-            if (secondPattern.equals("vertex"))
-            {
-                vertexShaderSrc = splitString[2];
-            } else if (secondPattern.equals("fragment"))
-            {
-                fragmentShaderSrc = splitString[2];
-            } else
-            {
-                throw new IOException("Unexpected token '" + secondPattern + "'");
-            }
-
+            source = new String(Files.readAllBytes(Paths.get(filepath)));
         } catch (IOException e) {
             e.printStackTrace();
-            assert false : "Error : Could not open file for shader '" + filepath + "'";
+            assert false : "Error could not open file for shader : '" + filepath +"'";
+        }
+
+        // Split the two different shaders sources
+        String[] splitString = source.split("(#type)( )+([a-zA-Z]+)");
+        // We get an array of 3 : ["", 'the vertex / fragment shader source', 'the vertex / fragment shader source']
+
+        assert splitString.length >= 2 : "Error shader '" + filepath + "' is not a valid shader";
+
+        // Parse the 2 shaders
+        String[] shaderType = new String[splitString.length-1];
+        int startPos;
+        int endPos = 0;
+        for (int count = 1; count < 3; count++) {
+            startPos = source.indexOf("#type", endPos) + 6;
+            endPos = source.indexOf("\r\n", startPos);
+            shaderType[count-1] = source.substring(startPos, endPos).trim();
+
+            switch (shaderType[count-1]) {
+                case "vertex":
+                    vertexShaderSrc = splitString[count];
+                    break;
+                case "fragment":
+                    fragmentShaderSrc = splitString[count];
+                    break;
+                default:
+                    assert false : "Error shader '" + filepath + "' has invalid types";
+            }
+            ++count;
         }
     }
 
