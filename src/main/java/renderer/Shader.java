@@ -53,7 +53,6 @@ public class Shader {
                 default:
                     assert false : "Error shader '" + filepath + "' has invalid types";
             }
-            ++count;
         }
     }
 
